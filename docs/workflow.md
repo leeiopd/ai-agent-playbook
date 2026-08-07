@@ -19,7 +19,7 @@ grill-with-docs → to-spec → to-tickets → implement
 - `grill-me` / `grill-with-docs`: 요구사항이 구체화되기 전, 질문을 반복하며 모호함을 걷어낸다. `grill-with-docs`는 도메인 모델 정제(용어 challenge) + `CONTEXT.md`/ADR 갱신까지 포함한다.
 - `to-spec`: 지금까지의 대화를 스펙으로 정리해 이슈 트래커에 발행한다.
 - `to-tickets`: 스펙을 실행 가능한 티켓 단위로 쪼갠다.
-- `implement`: 스펙/티켓을 받아 미리 합의한 seam마다 TDD 루프를 돌리고, 완료 후 코드 리뷰(AGENTS.md 10번 참조)를 거쳐 커밋까지 수행하는 마지막 구현 단계다.
+- `implement`: 스펙/티켓을 받아 미리 합의한 seam마다 TDD 루프를 돌리고, 완료 후 코드 리뷰([`docs/code-review.md`](code-review.md) 참조)를 거쳐 커밋까지 수행하는 마지막 구현 단계다.
 
 ## 적용 시점
 

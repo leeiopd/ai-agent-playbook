@@ -11,12 +11,17 @@ AI 코딩 에이전트(Claude Code, Codex, Cursor, Gemini CLI 등)와 함께 작
 ## 구성
 
 ```
-AGENTS.md                     범용 에이전트 지침 원본 (단일 진실 공급원)
+AGENTS.md                     범용 에이전트 지침 원본 — 항상 적용되는 핵심 규칙만 (단일 진실 공급원)
 docs/
   project-structure.md        프로젝트별 지침 파일을 어디에 어떻게 둘지에 대한 규약
   workflow.md                 신규 기능/리팩토링 착수 워크플로우 (질문 → 스펙 → 티켓 → 구현)
+  impact-scope.md             기존 코드 수정 전 영향 범위 파악 체크리스트 (특정 상황에서만 필요)
+  code-review.md              코드 리뷰 모드 전체 절차·기준·출력 형식 (리뷰 요청 시에만 필요)
+  design-discipline.md        깊은 모듈·seam 설계 규율 (새 모듈 설계 시에만 필요)
 setup.sh                      새 환경 부트스트랩 스크립트
 ```
+
+`AGENTS.md`는 항상 로드되므로 최소로 유지하고, 특정 상황에서만 필요한 규칙은 `docs/`로 분리했다 — 프론티어 LLM이 일관되게 따를 수 있는 지침 개수(대략 150~200개)에는 한계가 있다는 [AGENTS.md 작성 가이드](https://www.aihero.dev/a-complete-guide-to-agents-md)의 조언을 따른 것이다.
 
 ## 핵심 철학
 
@@ -30,10 +35,10 @@ setup.sh                      새 환경 부트스트랩 스크립트
 
 지침의 구조는 도메인 주도 설계(DDD)의 두 층위를 참조했다.
 
-- **전략적 설계(Strategic Design)**: `CONTEXT.md`를 유비쿼터스 랭귀지(ubiquitous language)의 저장소로 두고, 새 기능·새 도메인을 다룰 때는 용어집부터 세운다 (`docs/workflow.md`의 `grill-with-docs` 단계, `AGENTS.md` 8번). 기존 ADR과 도메인 용어를 존중하고 임의로 동의어를 만들지 않는다 — 코드보다 도메인 모델을 먼저, 그리고 계속 다듬는다는 관점을 그대로 가져왔다.
-- **전술적 설계(Tactical Design)**: 실제 코드 구조는 "깊은 모듈과 seam" 규율(`AGENTS.md` 11번)로 통제한다. 모듈의 일관성 경계를 seam으로 명시적으로 정하고 그 경계 밖은 건드리지 않는다는 점에서, DDD의 애그리게잇(aggregate) 경계와 같은 역할을 한다.
+- **전략적 설계(Strategic Design)**: `CONTEXT.md`를 유비쿼터스 랭귀지(ubiquitous language)의 저장소로 두고, 새 기능·새 도메인을 다룰 때는 용어집부터 세운다 (`docs/workflow.md`의 `grill-with-docs` 단계, [`docs/impact-scope.md`](docs/impact-scope.md)). 기존 ADR과 도메인 용어를 존중하고 임의로 동의어를 만들지 않는다 — 코드보다 도메인 모델을 먼저, 그리고 계속 다듬는다는 관점을 그대로 가져왔다.
+- **전술적 설계(Tactical Design)**: 실제 코드 구조는 "깊은 모듈과 seam" 규율([`docs/design-discipline.md`](docs/design-discipline.md))로 통제한다. 모듈의 일관성 경계를 seam으로 명시적으로 정하고 그 경계 밖은 건드리지 않는다는 점에서, DDD의 애그리게잇(aggregate) 경계와 같은 역할을 한다.
 
-이 두 층위를 관통하는 원칙은 **에이전트가 판단을 대신 내리지 않고 피드백한다**는 것이다. 기존 패턴이 표준·베스트 프랙티스와 어긋나 보여도 에이전트가 직접 고치지 않고, "차이 + 트레이드오프를 보고 → 사용자가 결정"하는 방향으로 못박았다 (`AGENTS.md` 8번). DDD의 모델이 도메인 전문가와 개발자 사이의 지속적인 대화(knowledge crunching)로 다듬어지는 것처럼, 이 지침에서도 규칙은 에이전트가 일방적으로 적용하는 게 아니라 사용자와의 피드백 루프를 통해 정제되도록 설계했다.
+이 두 층위를 관통하는 원칙은 **에이전트가 판단을 대신 내리지 않고 피드백한다**는 것이다. 기존 패턴이 표준·베스트 프랙티스와 어긋나 보여도 에이전트가 직접 고치지 않고, "차이 + 트레이드오프를 보고 → 사용자가 결정"하는 방향으로 못박았다 ([`docs/impact-scope.md`](docs/impact-scope.md)). DDD의 모델이 도메인 전문가와 개발자 사이의 지속적인 대화(knowledge crunching)로 다듬어지는 것처럼, 이 지침에서도 규칙은 에이전트가 일방적으로 적용하는 게 아니라 사용자와의 피드백 루프를 통해 정제되도록 설계했다.
 
 ## 새 환경에서 적용하기
 
